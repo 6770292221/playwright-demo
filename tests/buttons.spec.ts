@@ -1,68 +1,31 @@
-import { test, expect, Page } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
-// test("Add 3 elements", async ({ page }) => {
-//   await page.goto("https://the-internet.herokuapp.com/add_remove_elements/");
-//   const addButton = page.locator("button", { hasText: "Add Element" });
-
-//   // กดปุ่ม Add 3 ครั้ง
-//   await addButton.click();
-//   await addButton.click();
-//   await addButton.click();
-
-//   // ตรวจสอบว่ามีปุ่ม Delete 3 ปุ่ม
-//   const deleteButtons = page.locator("button.added-manually");
-//   await expect(deleteButtons).toHaveCount(3);
-// });
-
-// test("Add 2 elements and delete 1", async ({ page }) => {
-//   await page.goto("https://the-internet.herokuapp.com/add_remove_elements/");
-//   const addButton = page.locator("button", { hasText: "Add Element" });
-
-//   // Add 2 ปุ่ม
-//   await addButton.click();
-//   await addButton.click();
-
-//   // Delete 1 ปุ่ม
-//   const deleteButtons = page.locator("button.added-manually");
-//   await deleteButtons.nth(0).click();
-
-//   // เหลือปุ่ม Delete 1 ปุ่ม
-//   await expect(deleteButtons).toHaveCount(1);
-// });
-
-// Refactor
-
-// ฟังก์ชัน reusable
-const gotoAddRemovePage = async (page: Page) => {
-  await page.goto("https://the-internet.herokuapp.com/add_remove_elements/");
-};
-
-const addElements = async (page: Page, count: number) => {
-  const addButton = page.locator("button", { hasText: "Add Element" });
-  for (let i = 0; i < count; i++) {
-    await addButton.click();
-  }
-};
-
-const getDeleteButtons = (page: Page) => {
-  return page.locator("button.added-manually");
-};
-
-// Test: Add 3 elements
 test("Add 3 elements", async ({ page }) => {
-  await gotoAddRemovePage(page);
-  await addElements(page, 3);
-  const deleteButtons = getDeleteButtons(page);
+  await page.goto("https://the-internet.herokuapp.com/add_remove_elements/");
+  const addButton = page.locator("button", { hasText: "Add Element" });
+
+  // กดปุ่ม Add 3 ครั้ง
+  await addButton.click();
+  await addButton.click();
+  await addButton.click();
+
+  // ตรวจสอบว่ามีปุ่ม Delete 3 ปุ่ม
+  const deleteButtons = page.locator("button.added-manually");
   await expect(deleteButtons).toHaveCount(3);
 });
 
-// Test: Add 2 elements and delete 1
 test("Add 2 elements and delete 1", async ({ page }) => {
-  await gotoAddRemovePage(page);
-  await addElements(page, 2);
+  await page.goto("https://the-internet.herokuapp.com/add_remove_elements/");
+  const addButton = page.locator("button", { hasText: "Add Element" });
 
-  const deleteButtons = getDeleteButtons(page);
+  // Add 2 ปุ่ม
+  await addButton.click();
+  await addButton.click();
+
+  // Delete 1 ปุ่ม
+  const deleteButtons = page.locator("button.added-manually");
   await deleteButtons.nth(0).click();
 
+  // เหลือปุ่ม Delete 1 ปุ่ม
   await expect(deleteButtons).toHaveCount(1);
 });
